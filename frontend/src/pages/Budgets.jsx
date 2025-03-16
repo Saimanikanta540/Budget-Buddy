@@ -7,6 +7,9 @@ function Budgets() {
   const { budgets, expenses, addBudget, updateBudget, deleteBudget } = useContext(FinanceContext)
   const [newBudget, setNewBudget] = useState({ category: '', amount: '' })
 
+  // Define default expense categories
+  const defaultCategories = ['food', 'transportation', 'utilities', 'entertainment', 'shopping', 'healthcare', 'other']
+
   console.log('Current budgets:', budgets) // Debug log
 
   const calculateSpending = (category) => {
@@ -53,15 +56,20 @@ function Budgets() {
             <form onSubmit={handleSubmit} className="budget-form">
               <div className="form-group">
                 <label htmlFor="category">Category</label>
-                <input
-                  type="text"
+                <select
                   id="category"
                   className="form-input"
                   value={newBudget.category}
                   onChange={(e) => setNewBudget({ ...newBudget, category: e.target.value })}
-                  placeholder="Enter budget category"
                   required
-                />
+                >
+                  <option value="">Select a category</option>
+                  {defaultCategories.map(category => (
+                    <option key={category} value={category}>
+                      {category.charAt(0).toUpperCase() + category.slice(1)}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="form-group">
                 <label htmlFor="amount">Amount</label>
